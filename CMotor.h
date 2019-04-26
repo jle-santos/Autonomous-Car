@@ -5,6 +5,7 @@
 
 //Misc Libraries
 #include <string>
+#include <iostream>
 
 //Set input/output pins
 

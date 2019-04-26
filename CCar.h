@@ -1,18 +1,19 @@
 #pragma once
 
-#include "Server.h"
-#include "Motor.h"
-#include "Guidance.h"
+//#include "Server.h"
+#include "CMotor.h"
+#include <iostream>
+//#include "Guidance.h"
 
 class CCar
 {
 private:
-	CServer _server;
+	//CServer _server;
 	CMotor _motors;
-	CGuidance _guidance;
+	//CGuidance _guidance;
 
-	static void serverthrd(CCar *ptr);
-	static void imagethrd(CCar *ptr);
+	//static void serverthrd(CCar *ptr);
+	//static void imagethrd(CCar *ptr);
 
 public:
 	CCar();
