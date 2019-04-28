@@ -9,6 +9,9 @@ int main(int argc, char* argv[])
 	std::cout << "ELEX 4699\n";
 	
 	CCar car;
+
+	//Starts the Car Server threads
+
 	car.drive();
 	
 	return 0;

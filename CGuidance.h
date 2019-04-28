@@ -8,9 +8,11 @@ class CGuidance
 private:
 	cv::Mat _display_im;
 	raspicam::RaspiCam_Cv _cap;
+	
 public:
 	CGuidance();
 	~CGuidance();
+
 	void update();
 	void get_im(cv::Mat &im);
 };

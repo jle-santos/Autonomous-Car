@@ -96,7 +96,12 @@ void CMotor::forward(float time)
 	//Make Motor B CW
 	gpioWrite(BIN1, ON);
 	gpioWrite(BIN2, OFF);
-
+	
+	std::cout << "Written: " << gpioRead(AIN1) << " to GPIO: " << AIN1 << "\n";
+	std::cout << "Written: " << gpioRead(AIN2) << " to GPIO: " << AIN2 << "\n";
+	std::cout << "Written: " << gpioRead(BIN1) << " to GPIO: " << BIN1 << "\n";
+	std::cout << "Written: " << gpioRead(BIN2) << " to GPIO: " << BIN2 << "\n";
+	
 	gpioSleep(PI_TIME_RELATIVE, time, 0);
 	stop();
 }

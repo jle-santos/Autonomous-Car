@@ -17,9 +17,9 @@
 #define PWMA 22
 
 //Motor B (right)
-#define BIN1 2
-#define BIN2 3
-#define PWMB 4
+#define BIN1 5
+#define BIN2 6
+#define PWMB 13
 
 //H-Bridge Enable (keep high)
 #define STBY 18
