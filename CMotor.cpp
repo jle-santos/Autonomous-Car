@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "CMotor.h"
 
 
@@ -26,7 +26,9 @@ int CMotor::open(std::string comm)
 
 void CMotor::enable()
 {
+	
 	gpioWrite(STBY, ON);
+	std::cout << "Initiating H-Bridge: \nWritten: " << gpioRead(STBY) << " to GPIO: " << STBY << "\n";
 }
 
 void CMotor::disable()
@@ -36,27 +38,42 @@ void CMotor::disable()
 
 void CMotor::set_pwm_left(int val)
 {
-	gpioPWM(AIN1, val);
+	gpioPWM(PWMA, val);
 }
 
 void CMotor::set_pwm_right(int val)
 {
-	gpioPWM(BIN1, val);
+	gpioPWM(PWMB, val);
 }
 
 int CMotor::get_pwm_left()
 {
-	return gpioGetPWMdutycycle(AIN1);
+	return gpioGetPWMdutycycle(PWMA);
 }
 
 int CMotor::get_pwm_right()
 {
-	return gpioGetPWMdutycycle(BIN1);
+	return gpioGetPWMdutycycle(PWMB);
 }
 
 void CMotor::pedestrian()
 {
-
+	//gpioWrite(BIN1, ON);
+	//gpioWrite(BIN2, OFF);	
+	forward(2);
+	std::cout << "Written: " << gpioRead(BIN1) << " to GPIO: " << BIN1 << "\n";
+	std::cout << "Written: " << gpioRead(BIN2) << " to GPIO: " << BIN2 << "\n";
+	
+	gpioSleep(PI_TIME_RELATIVE, 2, 0);
+	
+	stop();
+	
+	std::cout << "\n Switching Directions.\n";
+	backward(2);
+	
+	std::cout << "Written: " << gpioRead(BIN1) << " to GPIO: " << BIN1 << "\n";
+	std::cout << "Written: " << gpioRead(BIN2) << " to GPIO: " << BIN2 << "\n";
+	
 }
 
 void CMotor::stop()
@@ -79,7 +96,12 @@ void CMotor::forward(float time)
 	//Make Motor B CW
 	gpioWrite(BIN1, ON);
 	gpioWrite(BIN2, OFF);
-
+	
+	std::cout << "Written: " << gpioRead(AIN1) << " to GPIO: " << AIN1 << "\n";
+	std::cout << "Written: " << gpioRead(AIN2) << " to GPIO: " << AIN2 << "\n";
+	std::cout << "Written: " << gpioRead(BIN1) << " to GPIO: " << BIN1 << "\n";
+	std::cout << "Written: " << gpioRead(BIN2) << " to GPIO: " << BIN2 << "\n";
+	
 	gpioSleep(PI_TIME_RELATIVE, time, 0);
 	stop();
 }
