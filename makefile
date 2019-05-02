@@ -11,8 +11,8 @@ all: AutoCar
 #SortServer: 4618_Template.o server.o ControlPi.o
 	#$(CC) $(LDFLAGS) 4618_Template.o server.o ControlPi.o -o SortServer
 	
-AutoCar: main.o CCar.o CMotor.o CGuidance.o CServer.o
-	$(CC) $(LDFLAGS) main.o CCar.o CMotor.o CGuidance.o CServer.o -o AutoCar
+AutoCar: main.o CCar.o CMotor.o CGuidance.o server.o
+	$(CC) $(LDFLAGS) main.o CCar.o CMotor.o CGuidance.o server.o -o AutoCar
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -29,8 +29,8 @@ CGuidance.o: CGuidance.cpp CGuidance.h
 #CCommunication.o: CCommunication.cpp CCommunication.h
 #	$(CC) $(CFLAGS) CCommunication.cpp
 
-server.o: CServer.cpp CServer.h
-	$(CC) $(CFLAGS) CServer.cpp
+server.o: server.cpp server.h
+	$(CC) $(CFLAGS) server.cpp
 
 clean:
 	rm *o output

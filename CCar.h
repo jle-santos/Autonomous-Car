@@ -4,7 +4,7 @@
 #include "CMotor.h"
 #include "CGuidance.h"
 //#include "CCommunication.h"
-#include "CServer.h"
+#include "server.h"
 
 #include <iostream>
 #include <thread>
@@ -18,12 +18,12 @@ class CCar
 private:
 	CMotor _motors;
 	CGuidance _guidance;
-	CServer _serv;
+	Server _serv;
 	//CCommunication _comm;
 	
 	cv::Mat _car_vision;
 	
-	//std::mutex _carX;
+	std::mutex _carX;
 	
 	bool _thread_exit;
 	

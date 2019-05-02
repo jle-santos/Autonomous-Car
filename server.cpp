@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////
 // Prepared for BCIT ELEX4618, May 2017, by Craig Hennessey
 ///////////////////////////////////////////////////////////////////
-#include "stdafx.h"
+//#include "stdafx.h"
 
 #include "server.h"
 
@@ -203,7 +203,7 @@ void Server::start(int port)
 
             // Processing incoming data
             std::string str = buff;
-            //std::cout << "\nServer RX: " << str;
+            std::cout << "\nServer RX: " << str;
 
             // The client sent "im" as a message
             if (str == "im")

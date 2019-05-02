@@ -16,13 +16,18 @@ void CCar::serverimgfunc()
 {
    //std::cout << "Sending image: _car_im\n";
   //cv::resize(_car_vision, _car_vision, cv::Size(640,480));
+ 
   do
   {
-  _guidance.update();
   _car_vision = _guidance.get_im();
-  _serv.set_txim(_car_vision);
+  //_serv.set_txim(_car_vision);
+  _carX.lock();
+  cv::imshow("Car", _car_vision);
+  _carX.unlock();
+  std::cout << "Sending image: _car_im\n";
    }
-  while(cv::waitKey(10) != ' ');
+  while(cv::waitKey(100) != ' ');
+
 }
 
 /*
@@ -60,7 +65,10 @@ void CCar::drive()
 	std::thread t2(&CCar::imagethrd, this);
 	t2.detach();
 	
-	while(true) {};
+	while(true) 
+	{
+		_guidance.update();
+	};
 	/*
 	for(int i = 0; i <= 500; i++)
 	{
