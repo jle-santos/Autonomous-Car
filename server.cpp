@@ -47,6 +47,7 @@ bool setblocking(int fd, bool blocking)
 Server::Server()
 {
   _txim = cv::Mat::zeros(10,10,CV_8UC3);
+  _exit = false;
 }
 
 Server::~Server()
@@ -79,7 +80,9 @@ void Server::start(int port)
   struct sockaddr_in server_addr, client_addr;
   SOCKET serversock = 0;
   SOCKET clientsock = 0;
- 
+  
+  //std::cout << "Server::Starting, ret: " << ret << "...\n";
+  
 #ifdef WIN4618
   WSADATA wsdat;
  int addressSize = sizeof(server_addr);
@@ -137,9 +140,11 @@ void Server::start(int port)
   }
 
   listen(serversock, BACKLOG);
-
+  //std::cout << "Server::exit = " << _exit <<"\n";
+  
   while (_exit == false)
   {
+	//std::cout << "Server::exit = false, listening...\n";
     cv::waitKey(100);
     
     clientsock = accept(serversock, (struct sockaddr *) &client_addr, &addressSize);
@@ -155,6 +160,7 @@ void Server::start(int port)
         // If socket was shut down orderly (client disconnected)
         if (ret == 0)
         {
+		//std::cout << "Server::Socket ret = 0;\n";
 #ifdef PI4618
           close(clientsock);
 #endif

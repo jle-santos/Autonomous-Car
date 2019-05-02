@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CServer.h"
+#include "server.h"
 
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -8,7 +8,7 @@
 class CCommunication
 {
 private:
-    CServer _serv;
+    Server _serv;
 
     cv::Mat _car_im;
     int _port;
@@ -23,6 +23,6 @@ public:
     void start_server();
 	void transmit_images();
 
-    void get_image(cv::Mat car_image);
+    void get_image(cv::Mat &car_image);
 };
 

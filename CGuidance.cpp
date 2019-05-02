@@ -25,9 +25,9 @@ void CGuidance::update()
     im = _display_im;
 }*/
 
-cv::Mat CGuidance::get_im()
+void CGuidance::get_im(cv::Mat &im)
 {
-	return _display_im;
+	_display_im.copyTo(im);
 }
 
 CGuidance::~CGuidance()
