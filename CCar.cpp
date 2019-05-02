@@ -6,7 +6,7 @@ CCar::CCar()
 {
 	//_thread_exit = false;
 }
-
+/*
 void CCar::serverfunc()
 {
 	_serv.start(4618);
@@ -29,23 +29,23 @@ void CCar::serverimgfunc()
   while(cv::waitKey(100) != ' ');
 
 }
+*/
 
-/*
 void CCar::transmit()
 {
 	std::thread t1 (&CCar::serverthrd, this);
 	t1.detach();
 	
-	//std::thread t2 (&CCar::imagethrd, this);
-	//t2.detach();
+	std::thread t2 (&CCar::imagethrd, this);
+	t2.detach();
 	
 }
-*/
+
 void CCar::serverthrd(CCar * ptr)
 {
   	while(ptr->_thread_exit == false)
   	{
-		ptr->serverfunc();
+		ptr->_comm.start_server();
 	}
 }
 
@@ -53,21 +53,21 @@ void CCar::imagethrd(CCar * ptr)
 {
   	  	while(ptr->_thread_exit == false)
   	{
-		ptr->serverimgfunc();
+		ptr->_comm.transmit_images();
 	}
 }
 
 void CCar::drive()
 {
-	std::thread t1(&CCar::serverthrd, this);
-	t1.detach();
-	
-	std::thread t2(&CCar::imagethrd, this);
-	t2.detach();
+	transmit();
 	
 	while(true) 
 	{
 		_guidance.update();
+		_guidance.get_im(_car_vision);
+		//cv::imshow("Car", _car_vision);
+		_comm.get_image(_car_vision);
+		cv::waitKey(10);
 	};
 	/*
 	for(int i = 0; i <= 500; i++)

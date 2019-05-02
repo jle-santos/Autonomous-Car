@@ -3,8 +3,8 @@
 //#include "Server.h"
 #include "CMotor.h"
 #include "CGuidance.h"
-//#include "CCommunication.h"
-#include "server.h"
+#include "CCommunication.h"
+//#include "server.h"
 
 #include <iostream>
 #include <thread>
@@ -18,8 +18,8 @@ class CCar
 private:
 	CMotor _motors;
 	CGuidance _guidance;
-	Server _serv;
-	//CCommunication _comm;
+	//Server _serv;
+	CCommunication _comm;
 	
 	cv::Mat _car_vision;
 	
@@ -30,8 +30,8 @@ private:
 	static void serverthrd(CCar *ptr);
 	static void imagethrd(CCar *ptr);
 	
-	void serverfunc();
-	void serverimgfunc();
+	//void serverfunc();
+	//void serverimgfunc();
 	
 
 
@@ -41,7 +41,7 @@ public:
 
 
 
-	//void transmit();
+	void transmit();
 	void autonomous();
 	void drive();
 	void test();

@@ -14,6 +14,6 @@ public:
 	~CGuidance();
 
 	void update();
-	cv::Mat get_im();
+	void get_im(cv::Mat &im);
 };
 
