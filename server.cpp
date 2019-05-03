@@ -209,11 +209,11 @@ void Server::start(int port)
 
             // Processing incoming data
             std::string str = buff;
-            std::cout << "\nServer RX: " << str;
+            //std::cout << "\nServer RX: " << str;
 
             // The client sent "im" as a message
-            if (str == "im")
-            {
+            //if (str == "im")
+            //{
               _immutex.lock();
               _txim.copyTo(frame);
               _immutex.unlock();
@@ -232,18 +232,18 @@ void Server::start(int port)
 
               // Then send image
               send(clientsock, reinterpret_cast<char*>(&image_buffer[0]), image_buffer.size(), 0);
-            }
+            //}
             // The client sent a message, add to cmd list queue
-            else
-            {
+           // else
+            //{
               _cmdmutex.lock();
               _cmd_list.push_back(str);
               _cmdmutex.unlock();
 
               // Remove the following two lines in the final version
-              std::string reply = "Hi there";
-              send(clientsock, reply.c_str(), reply.length(), 0);
-            }
+              //std::string reply = "Hi there";
+              //send(clientsock, reply.c_str(), reply.length(), 0);
+           // }
           }
         }
       } 

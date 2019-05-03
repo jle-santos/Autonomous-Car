@@ -12,7 +12,6 @@ private:
 
     cv::Mat _car_im;
     int _port;
-
 	
 public:
 	CCommunication();
@@ -24,5 +23,6 @@ public:
 	void transmit_images();
 
     void get_image(cv::Mat &car_image);
+    void get_commands(std::vector<std::string> &commands);
 };
 
