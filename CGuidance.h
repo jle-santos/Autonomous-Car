@@ -7,7 +7,7 @@ class CGuidance
 {
 private:
 	cv::Mat _display_im;
-	cv::Mat _raw, _binary, _hsv;
+	//cv::Mat _raw, _binary, _hsv;
 	
 	raspicam::RaspiCam_Cv _cap;
 	
