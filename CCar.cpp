@@ -59,46 +59,59 @@ void CCar::imagethrd(CCar * ptr)
 
 void CCar::drive()
 {
-	transmit();
+	//transmit();
+	//_motors.enable();
+	//_speed = 255;
+	
+	//_motors.set_pwm_left(_speed);
+	//_motors.set_pwm_right(_speed);
 	
 	while(true) 
 	{
 		_guidance.update();
-		_guidance.get_im(_car_vision);
-		//cv::imshow("Car", _car_vision);
-		_comm.get_image(_car_vision);
-		cv::waitKey(10);
-	};
-	/*
-	for(int i = 0; i <= 500; i++)
-	{
-		//std::cout << "Count: " << i << "\n";
-		//std::cout << "Transmitting...\n";
-		//_guidance.update();
-		//_car_vision = _guidance.get_im();
-		//cv::waitKey(10);
-		//cv::imshow("Car", _car_vision);
-		//cv::waitKey(40);
-		/*
-		//_comm.get_image(_car_vision);
-		//_comm.transmit_images();
-		//cv::waitKey(50);
-		//cv::imshow("Car", _car_vision);
-		
-		//while (cv::waitKey(10) != ' ');
-		//std::cout << "Updated image...\n";
 		//_guidance.get_im(_car_vision);
-		//std::cout << "Sending image...\n";
+		std::cout << "Test\n";
+		//cv::imshow("Test image", _car_vision);
+		//cv::waitKey(10);
 		//_comm.get_image(_car_vision);
+		//_comm.get_commands(_commands);
+		//if(!_commands.empty())
+		//	parse_cmd(_commands[0]);
+	};
+}
+
+void CCar::parse_cmd(std::string cmd)
+{
+	std::cout << "Commands recieved: " << cmd << "\n";
+	_motors.set_pwm_left(_speed);
+	_motors.set_pwm_right(_speed);
+	std::cout << "Speed: " << _speed << "\n";
+	if(cmd == W_KEY)
+		_motors.forward(1);
+	else if (cmd == S_KEY)
+		_motors.backward(1);
+	else if (cmd == A_KEY)
+		_motors.left(0.2);
+	else if (cmd == D_KEY)
+		_motors.right(0.2);
+	else if (cmd == E_KEY)
+	{
+		if(_speed < 255)
+			_speed += 20;
 		
-		//_car_vision = _guidance.get_im();
-		//_comm.get_image(_car_vision);
-		
-		//image captured in guidance, sent to comm
-		//_comm.get_image(_guidance.send_image()); <- a function that returns a cv::Mat image
-		//eliminates the need for _car_vision;
-		*/
-	
+		if(_speed > 255)
+			_speed = 255;
+	}
+	else if (cmd == Q_KEY)
+	{
+		if(_speed > 100)
+			_speed -= 20;
+			
+		if(_speed < 100)
+			_speed = 100;
+	}
+	else 
+		std::cout << "\nInvalid key\n";
 }
 
 void CCar::autonomous()

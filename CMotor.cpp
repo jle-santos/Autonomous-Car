@@ -130,7 +130,7 @@ void CMotor::left(float time)
 	gpioWrite(BIN1, ON);
 	gpioWrite(BIN2, OFF);
 
-	gpioSleep(PI_TIME_RELATIVE, time, 0);
+	gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
 	stop();
 
 }
@@ -144,7 +144,7 @@ void CMotor::right(float time)
 	gpioWrite(BIN1, OFF);
 	gpioWrite(BIN2, ON);
 
-	gpioSleep(PI_TIME_RELATIVE, time, 0);
+	gpioSleep(PI_TIME_RELATIVE, time, time*1000000);
 	stop();
 }
 

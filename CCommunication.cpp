@@ -33,6 +33,11 @@ void CCommunication::get_image(cv::Mat &car_image)
     car_image.copyTo(_car_im);
 }
 
+void CCommunication::get_commands(std::vector<std::string> &commands)
+{
+	_serv.get_cmd(commands);
+}
+
 CCommunication::~CCommunication()
 {
 }
