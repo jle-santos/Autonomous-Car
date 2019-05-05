@@ -59,7 +59,7 @@ void CCar::imagethrd(CCar * ptr)
 
 void CCar::drive()
 {
-	transmit();
+	//transmit();
 	//_motors.enable();
 	//_speed = 255;
 	
@@ -69,14 +69,14 @@ void CCar::drive()
 	while(true) 
 	{
 		_guidance.update();
-		_guidance.get_im(_car_vision);
+		//_guidance.get_im(_car_vision);
 		std::cout << "Test\n";
 		//cv::imshow("Test image", _car_vision);
-		cv::waitKey(10);
-		_comm.get_image(_car_vision);
-		_comm.get_commands(_commands);
-		if(!_commands.empty())
-			parse_cmd(_commands[0]);
+		//cv::waitKey(10);
+		//_comm.get_image(_car_vision);
+		//_comm.get_commands(_commands);
+		//if(!_commands.empty())
+		//	parse_cmd(_commands[0]);
 	};
 }
 
