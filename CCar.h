@@ -39,6 +39,9 @@ private:
 	bool _thread_exit;
 	
 	static void serverthrd(CCar *ptr);
+	static void sendthrd(CCar *ptr);
+	
+	static void updatethrd(CCar *ptr);
 	static void imagethrd(CCar *ptr);
 	
 	//void serverfunc();

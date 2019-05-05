@@ -4,43 +4,42 @@
 
 CCar::CCar()
 {
-	//_thread_exit = false;
-}
-/*
-void CCar::serverfunc()
-{
-	_serv.start(4618);
+	
 }
 
-void CCar::serverimgfunc()
-{
-   //std::cout << "Sending image: _car_im\n";
-  //cv::resize(_car_vision, _car_vision, cv::Size(640,480));
- 
-  do
-  {
-  _car_vision = _guidance.get_im();
-  //_serv.set_txim(_car_vision);
-  _carX.lock();
-  cv::imshow("Car", _car_vision);
-  _carX.unlock();
-  std::cout << "Sending image: _car_im\n";
-   }
-  while(cv::waitKey(100) != ' ');
-
-}
-*/
 
 void CCar::transmit()
 {
 	std::thread t1 (&CCar::serverthrd, this);
 	t1.detach();
 	
-	std::thread t2 (&CCar::imagethrd, this);
+	std::thread t2 (&CCar::sendthrd, this);
 	t2.detach();
+	
+	std::thread t3(&CCar::updatethrd, this);
+	t3.detach();
+	
+	//std::thread t4(&CCar::imagethrd, this);
+	//t4.detach();
 	
 }
 
+void CCar::updatethrd(CCar * ptr)
+{
+  	while(ptr->_thread_exit == false)
+  	{
+		ptr->_guidance.update();
+	}
+}
+/*
+void CCar::imagethrd(CCar * ptr)
+{
+  	while(ptr->_thread_exit == false)
+  	{
+		ptr->_guidance.get_im(_car_vision);
+	}
+}
+*/
 void CCar::serverthrd(CCar * ptr)
 {
   	while(ptr->_thread_exit == false)
@@ -49,7 +48,7 @@ void CCar::serverthrd(CCar * ptr)
 	}
 }
 
-void CCar::imagethrd(CCar * ptr)
+void CCar::sendthrd(CCar * ptr)
 {
   	  	while(ptr->_thread_exit == false)
   	{
@@ -59,7 +58,7 @@ void CCar::imagethrd(CCar * ptr)
 
 void CCar::drive()
 {
-	//transmit();
+	transmit();
 	//_motors.enable();
 	//_speed = 255;
 	
@@ -68,15 +67,14 @@ void CCar::drive()
 	
 	while(true) 
 	{
-		_guidance.update();
-		//_guidance.get_im(_car_vision);
-		std::cout << "Test\n";
-		//cv::imshow("Test image", _car_vision);
-		//cv::waitKey(10);
-		//_comm.get_image(_car_vision);
-		//_comm.get_commands(_commands);
-		//if(!_commands.empty())
-		//	parse_cmd(_commands[0]);
+		//_guidance.update();
+		_guidance.get_im(_car_vision);
+		//std::cout << "Awaiting commands...\n";
+		_comm.get_image(_car_vision);
+		_comm.get_commands(_commands);
+		if(!_commands.empty())
+			parse_cmd(_commands[0]);
+		cv::waitKey(10);
 	};
 }
 

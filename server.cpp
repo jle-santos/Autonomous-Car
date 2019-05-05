@@ -74,7 +74,7 @@ void Server::start(int port)
   std::vector<unsigned char> image_buffer;
   std::vector<int> compression_params;
   compression_params.push_back(cv::IMWRITE_JPEG_QUALITY);
-  compression_params.push_back(50); // 1 to 100 (100 = highest quality/largest image)
+  compression_params.push_back(30); // 1 to 100 (100 = highest quality/largest image)
 
   int ret;
   struct sockaddr_in server_addr, client_addr;
@@ -145,7 +145,7 @@ void Server::start(int port)
   while (_exit == false)
   {
 	//std::cout << "Server::exit = false, listening...\n";
-    cv::waitKey(100);
+    cv::waitKey(10);
     
     clientsock = accept(serversock, (struct sockaddr *) &client_addr, &addressSize);
 
