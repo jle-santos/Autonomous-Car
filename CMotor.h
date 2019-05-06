@@ -30,7 +30,9 @@ enum {OFF, ON};
 class CMotor
 {
 private:
-
+	int _speed_left;
+	int _speed_right;
+	
 public:
 	CMotor();
 	~CMotor();
@@ -44,6 +46,8 @@ public:
 	void set_pwm_right(int val);
 	int get_pwm_left();
 	int get_pwm_right();
+
+	void auto_run();
 
 	void pedestrian();
 	void stop();

@@ -56,6 +56,17 @@ int CMotor::get_pwm_right()
 	return gpioGetPWMdutycycle(PWMB);
 }
 
+void CMotor::auto_run()
+{
+	//Make Motor A CW
+	gpioWrite(AIN1, ON);
+	gpioWrite(AIN2, OFF);
+
+	//Make Motor B CW
+	gpioWrite(BIN1, ON);
+	gpioWrite(BIN2, OFF);
+}
+
 void CMotor::pedestrian()
 {
 	//gpioWrite(BIN1, ON);

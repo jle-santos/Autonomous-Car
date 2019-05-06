@@ -11,11 +11,13 @@ int main(int argc, char* argv[])
 	CCar car;
 	int mode = 0;
 	
-	std::cout << "\nMode: \n1 - Drive, \n2 - Test>> ";
+	std::cout << "\nMode: \n1 - Auto\n2 - Drive, \n3 - Test>> ";
 	std::cin >> mode;
 	//Starts the Car Server threads
 	
 	if(mode  == 1)
+		car.self();
+	else if(mode == 2)
 		car.drive();
 	else
 		car.test();

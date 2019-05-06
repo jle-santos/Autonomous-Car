@@ -31,6 +31,8 @@ private:
 	std::vector<std::string> _commands;
 	
 	int _speed;
+	int _left;
+	int _right;
 	
 	cv::Mat _car_vision;
 	
@@ -58,6 +60,7 @@ public:
 	void transmit();
 	void autonomous();
 	void drive();
+	void self();
 	void test();
 	
 	void parse_cmd(std::string cmd);

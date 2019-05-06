@@ -4,7 +4,8 @@
 
 CCar::CCar()
 {
-	
+	_left = 100;
+	_right = 100;
 }
 
 
@@ -56,10 +57,32 @@ void CCar::sendthrd(CCar * ptr)
 	}
 }
 
+void CCar::self()
+{
+	transmit();
+	_motors.enable();
+	
+	
+	while(true) 
+	{
+		
+		_motors.set_pwm_left(_left);
+		_motors.set_pwm_right(_right);
+	    _guidance.set_motor_speed(_left, _right);
+		_motors.auto_run();
+
+		_guidance.get_im(_car_vision);
+
+		_comm.get_image(_car_vision);
+		_comm.get_commands(_commands);
+	};
+}
+
 void CCar::drive()
 {
 	transmit();
-	//_motors.enable();
+	_motors.enable();
+	
 	//_speed = 255;
 	
 	//_motors.set_pwm_left(_speed);
@@ -67,7 +90,6 @@ void CCar::drive()
 	
 	while(true) 
 	{
-		//_guidance.update();
 		_guidance.get_im(_car_vision);
 		//std::cout << "Awaiting commands...\n";
 		_comm.get_image(_car_vision);
