@@ -55,7 +55,7 @@ public:
 	CCar();
 	~CCar();
 
-
+	void stop();
 	
 	void transmit();
 	void autonomous();

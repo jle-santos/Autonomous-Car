@@ -19,6 +19,8 @@ int main(int argc, char* argv[])
 		car.self();
 	else if(mode == 2)
 		car.drive();
+	else if(mode == 3)
+		car.stop();
 	else
 		car.test();
 	

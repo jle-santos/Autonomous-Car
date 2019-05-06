@@ -78,6 +78,11 @@ void CCar::self()
 	};
 }
 
+void CCar::stop()
+{
+	_motors.stop();
+}
+
 void CCar::drive()
 {
 	transmit();
