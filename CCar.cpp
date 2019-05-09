@@ -49,7 +49,7 @@ void CCar::drive()
 	_motors.enable();
 	_sensor.enable();
 	//_speed = 255;
-	
+	double _distance;
 	//_motors.set_pwm_left(_speed);
 	//_motors.set_pwm_right(_speed);
 	
@@ -57,6 +57,8 @@ void CCar::drive()
 	{
 		//_guidance.update();
 		_guidance.get_im(_car_vision);
+		_sensor.retrieveDistance(_distance);
+		std::cout << "Distance: " << _distance << "\n";
 		//std::cout << "Test\n";
 		_sensor.getDistance();
 		cv::waitKey(20);

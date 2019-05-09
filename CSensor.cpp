@@ -36,27 +36,32 @@ void CSensor::getDistance()
     gettimeofday(&start, NULL);
     gettimeofday(&timeOut, NULL);
     
-	while(gpioRead(ECHO) == LOW && (timeOut.tv_usec - start.tv_usec) < 500000)
+	while(gpioRead(ECHO) == LOW && (timeOut.tv_usec - start.tv_usec) < 5000)
 		{
 		gettimeofday(&timeOut, NULL);
 		//gpioSleep(PI_TIME_RELATIVE, 0, 10);
-		std::cout << "ECHO LOW: ";
-		std::cout << gpioRead(ECHO) << " | " << timeOut.tv_usec - start.tv_usec << "us timeout\n";
+		//std::cout << "ECHO LOW: ";
+		//std::cout << gpioRead(ECHO) << " | " << timeOut.tv_usec - start.tv_usec << "us timeout\n";
 		}
 	
 	gettimeofday(&start, NULL);
 	gettimeofday(&timeOut, NULL);
-	while(gpioRead(ECHO) == HIGH && (timeOut.tv_usec - start.tv_usec) < 500000)
+	while(gpioRead(ECHO) == HIGH && (timeOut.tv_usec - start.tv_usec) < 50000)
 		{
 		gettimeofday(&timeOut, NULL);
-		std::cout << "ECHO HIGH\n";
+
 		}
     gettimeofday(&end, NULL);
     
     timersub(&end, &start, &total);
     
 	elapsedTime = total.tv_sec + total.tv_usec/1e6;
-	_distance = ((elapsedTime) * 34300)/2;
+	
+	for(int j = 1; j < MOVING_AVE; j++)
+		_distances[j] = _distances[j-1];
+	
+	_distances[0] = ((elapsedTime) * 34300)/2;
+	
 	//std::cout << "Distance: " << _distance << " cm\n";
 	//std::cout << "Elapsed time: " << elapsedTime*1e6 << "us | Distance: " << _distance << " cm\n";
 	//std::cout << "Elapsed: " << total.tv_sec << "s, " << total.tv_usec << "us \n";
@@ -94,7 +99,13 @@ void CSensor::enable()
 
 void CSensor::retrieveDistance(double &dist)
 {
-
+	double average = 0;
+	
+	for(int i = 0; i < MOVING_AVE; i++)
+	{
+		average += (_distances[i]);
+	}
+	dist = average/5;
 }
 
 CSensor::~CSensor()

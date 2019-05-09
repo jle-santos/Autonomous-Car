@@ -11,7 +11,7 @@
 #define TRIGGER 23
 #define ECHO 24
 
-
+#define MOVING_AVE 20
 
 //Constants
 enum {LOW, HIGH};
@@ -19,7 +19,7 @@ enum {LOW, HIGH};
 class CSensor
 {
 private:
-	double _distance;
+	double _distances[20] = {0};
 public:
 	CSensor();
 	~CSensor();

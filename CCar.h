@@ -33,6 +33,8 @@ private:
 	
 	int _speed;
 	
+	//double _distance;
+	
 	cv::Mat _car_vision;
 	
 	std::mutex _carX;
