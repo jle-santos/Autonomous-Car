@@ -134,7 +134,9 @@ void CGuidance::update()
 			}
 		//std::cout << "Largest circle found: " << largest_circle << " | Radius: " << largest_circle_rad << "\n";
 		//cv::circle(_display_im, cv::Point(SIZE_X/2, SIZE_Y/2), CENTER_RAD, cv::Scalar(0,0,255), 2, 4);
-		 cv::putText(_raw, "DIR: " + _direction + " | L: " + std::to_string(_speed_left) + " | R" + std::to_string(_speed_right), cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
+		 //cv::putText(_raw, "DIR: " + _direction + " | L: " + std::to_string(_speed_left) + " | R" + std::to_string(_speed_right), cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
+		 
+		 cv::putText(_raw, "Wall in: " + std::to_string(_distance), cv::Point(10,30), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
 		 _raw.copyTo(_display_im);
 		 //.copyTo(_display_im);
 		//_greenThresh.copyTo(_display_im);

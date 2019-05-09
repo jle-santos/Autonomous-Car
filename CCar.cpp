@@ -5,6 +5,7 @@
 CCar::CCar()
 {
 	//_thread_exit = false;
+	_speed = 100;
 }
 
 void CCar::transmit()
@@ -54,7 +55,7 @@ void CCar::distthrd(CCar *ptr)
 	}
 }
 
-void CCar::drive()
+void CCar::autonomous()
 {
 	_sensor.enable();
 	_motors.enable();
@@ -126,11 +127,6 @@ void CCar::drive()
 		//_sensor.getDistance();
 		cv::waitKey(20);
 		_comm.get_image(_car_vision);
-		
-		
-		//_comm.get_commands(_commands);
-		//if(!_commands.empty())
-		//	parse_cmd(_commands[0]);
 	};
 }
 
@@ -139,14 +135,17 @@ void CCar::parse_cmd(std::string cmd)
 	std::cout << "Commands recieved: " << cmd << "\n";
 	_motors.set_pwm_left(_speed);
 	_motors.set_pwm_right(_speed);
-	std::cout << "Speed: " << _speed << "\n";
-	if(cmd == W_KEY)
-		_motors.forward(1);
-	else if (cmd == S_KEY)
-		_motors.backward(1);
-	else if (cmd == A_KEY)
+	//std::cout << "Speed: " << _speed << "\n";
+	if(cmd == "w")
+	{
+		_motors.forward(0.01);
+		std::cout << "\nForward detected\n";
+	}
+	else if (cmd == "s")
+		_motors.backward(0.1);
+	else if (cmd == "a")
 		_motors.left(0.2);
-	else if (cmd == D_KEY)
+	else if (cmd == "d")
 		_motors.right(0.2);
 	else if (cmd == E_KEY)
 	{
@@ -165,12 +164,32 @@ void CCar::parse_cmd(std::string cmd)
 			_speed = 100;
 	}
 	else 
-		std::cout << "\nInvalid key\n";
+	{
+		//std::cout << "\nInvalid key\n";
+		_motors.stop();
+	}
 }
 
-void CCar::autonomous()
+void CCar::drive()
 {
-
+	double _distance;
+	_sensor.enable();
+	_motors.enable();
+	transmit();
+	
+	while(true)
+	{
+		_sensor.retrieveDistance(_distance);
+		_guidance.getDistance(_distance);
+		//cv::waitKey(20);
+		_guidance.get_im(_car_vision);
+		_comm.get_image(_car_vision);
+		
+		
+		_comm.get_commands(_commands);
+		if(!_commands.empty())
+			parse_cmd(_commands[0]);
+	}
 }
 
 void CCar::test()
