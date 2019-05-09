@@ -3,7 +3,7 @@
 #include "CMotor.h"
 #include "CGuidance.h"
 #include "CCommunication.h"
-
+#include "CSensor.h"
 
 #include <iostream>
 #include <thread>
@@ -25,6 +25,7 @@ class CCar
 private:
 	CMotor _motors;
 	CGuidance _guidance;
+	CSensor _sensor;
 	//Server _serv;
 	CCommunication _comm;
 	
@@ -40,6 +41,7 @@ private:
 	
 	static void serverthrd(CCar *ptr);
 	static void imagethrd(CCar *ptr);
+	static void sendthrd(CCar *ptr);
 	
 	//void serverfunc();
 	//void serverimgfunc();
