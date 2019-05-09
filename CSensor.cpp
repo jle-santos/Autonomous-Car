@@ -23,19 +23,43 @@ int CSensor::open(std::string comm)
 void CSensor::getDistance()
 {
 	struct timeval start;
+	struct timeval timeOut;
     struct timeval end;
     struct timeval total;
 	
+	double elapsedTime;
 	
-    gettimeofday(&start, NULL);
-    gpioWrite(TRIGGER, HIGH);
+	gpioWrite(TRIGGER, HIGH);
 	gpioSleep(PI_TIME_RELATIVE, 0, 10);
 	gpioWrite(TRIGGER, LOW);
 	
+    gettimeofday(&start, NULL);
+    gettimeofday(&timeOut, NULL);
+    
+	while(gpioRead(ECHO) == LOW && (timeOut.tv_usec - start.tv_usec) < 500000)
+		{
+		gettimeofday(&timeOut, NULL);
+		//gpioSleep(PI_TIME_RELATIVE, 0, 10);
+		std::cout << "ECHO LOW: ";
+		std::cout << gpioRead(ECHO) << " | " << timeOut.tv_usec - start.tv_usec << "us timeout\n";
+		}
+	
+	gettimeofday(&start, NULL);
+	gettimeofday(&timeOut, NULL);
+	while(gpioRead(ECHO) == HIGH && (timeOut.tv_usec - start.tv_usec) < 500000)
+		{
+		gettimeofday(&timeOut, NULL);
+		std::cout << "ECHO HIGH\n";
+		}
     gettimeofday(&end, NULL);
+    
     timersub(&end, &start, &total);
-
-	std::cout << "Elapsed: " << total.tv_sec << "s, " << total.tv_usec << "us \n";
+    
+	elapsedTime = total.tv_sec + total.tv_usec/1e6;
+	_distance = ((elapsedTime) * 34300)/2;
+	//std::cout << "Distance: " << _distance << " cm\n";
+	//std::cout << "Elapsed time: " << elapsedTime*1e6 << "us | Distance: " << _distance << " cm\n";
+	//std::cout << "Elapsed: " << total.tv_sec << "s, " << total.tv_usec << "us \n";
 
 	/*
 	double startTick, endTick, diffTick, elapsedTime;

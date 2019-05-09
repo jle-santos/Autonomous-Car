@@ -59,7 +59,7 @@ void CCar::drive()
 		_guidance.get_im(_car_vision);
 		//std::cout << "Test\n";
 		_sensor.getDistance();
-		cv::waitKey(10);
+		cv::waitKey(20);
 		_comm.get_image(_car_vision);
 		_comm.get_commands(_commands);
 		if(!_commands.empty())
