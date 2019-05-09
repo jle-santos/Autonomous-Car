@@ -6,30 +6,6 @@ CCar::CCar()
 {
 	//_thread_exit = false;
 }
-/*
-void CCar::serverfunc()
-{
-	_serv.start(4618);
-}
-
-void CCar::serverimgfunc()
-{
-   //std::cout << "Sending image: _car_im\n";
-  //cv::resize(_car_vision, _car_vision, cv::Size(640,480));
- 
-  do
-  {
-  _car_vision = _guidance.get_im();
-  //_serv.set_txim(_car_vision);
-  _carX.lock();
-  cv::imshow("Car", _car_vision);
-  _carX.unlock();
-  std::cout << "Sending image: _car_im\n";
-   }
-  while(cv::waitKey(100) != ' ');
-
-}
-*/
 
 void CCar::transmit()
 {
