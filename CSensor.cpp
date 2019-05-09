@@ -134,10 +134,10 @@ void CSensor::retrieveDistance(double &dist)
 	double average = 0;
 	
 	for(int i = 0; i < MOVING_AVE; i++)
-	{
 		average += (_distances[i]);
-	}
+
 	dist = average/MOVING_AVE;
+	//dist = _distances[0];
 }
 
 CSensor::~CSensor()

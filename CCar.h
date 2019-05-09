@@ -31,6 +31,8 @@ private:
 	
 	std::vector<std::string> _commands;
 	
+	std::string _direction;
+	
 	int _speed;
 	int _left;
 	int _right;

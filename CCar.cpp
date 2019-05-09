@@ -63,25 +63,71 @@ void CCar::drive()
 	
 	//_speed = 255;
 	double _distance;
-	//_motors.set_pwm_left(_speed);
-	//_motors.set_pwm_right(_speed);
+	_motors.set_pwm_left(100);
+	_motors.set_pwm_right(100);
 	
 	while(true) 
 	{
-		_motors.autoRun();
-		_motors.set_pwm_left(_left);
-		_motors.set_pwm_right(_right);
-	    _guidance.set_motor_speed(_left, _right);
-		
-		//_guidance.update();
-		_guidance.get_im(_car_vision);
+		//_motors.autoRun();
+		//_motors.set_pwm_left(_left);
+		//_motors.set_pwm_right(_right);
+	    //_guidance.set_motor_speed(_left, _right);
 		_sensor.retrieveDistance(_distance);
-		_guidance.getDistance(_distance);
-		std::cout << "Distance: " << _distance << "\n";
+		if(_distance <= 13)
+			{
+			_motors.stop();
+			_guidance.checkColour = 1;
+			_guidance.set_motor_speed(_left, _right);
+			_motors.set_pwm_left(_left);
+			_motors.set_pwm_right(_right);
+			//_guidance.checkColour = 0;
+			
+			if(_right == 0 && _left == 200)
+				_motors.right(0.5);
+			else if(_left == 0 && _right == 200)
+				_motors.left(0.5);
+			else
+				_motors.stop();
+			
+			//cv::waitKey(100);
+			//_guidance.checkColour = 1;
+			/*
+			_guidance.getDirection(_direction);
+			if(_direction == "RIGHT")
+			{
+				_motors.stop();
+				_motors.right(0.5);
+			}
+			else if(_direction == "LEFT")
+			{
+				_motors.stop();
+				_motors.right(0.5);
+			}
+			else if(_direction == "STOP")
+				_motors.stop();*/
+			}
+		else
+		{
+			_guidance.checkColour = 0;
+			_motors.forward(0.01);
+			_motors.set_pwm_left(100);
+			_motors.set_pwm_right(100);
+		}
+
+		_guidance.get_im(_car_vision);
+		
+		//_guidance.getDistance(_distance);
+		std::cout << "Distance: " << _distance << "| check Colour? "<< _guidance.checkColour << " | Direction: " << _direction << "\n";
+		
+		
+		
+		
 		//std::cout << "Test\n";
 		//_sensor.getDistance();
 		cv::waitKey(20);
 		_comm.get_image(_car_vision);
+		
+		
 		//_comm.get_commands(_commands);
 		//if(!_commands.empty())
 		//	parse_cmd(_commands[0]);

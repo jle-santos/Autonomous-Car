@@ -22,6 +22,7 @@ private:
 	
 	int _speed_left;
 	int _speed_right;
+	std::string _direction;
 	
 	double _distance;
 	int _speed;
@@ -30,12 +31,15 @@ public:
 	CGuidance();
 	~CGuidance();
 
+	int checkColour;
+	
 	void update();
 	void get_im(cv::Mat &im);
 	
 	void set_motor_speed(int &left,int &right);
 	void getDistance(double dist); 
 	
+	void getDirection(std::string &dir);
 	
 };
 

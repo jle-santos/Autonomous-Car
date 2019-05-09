@@ -4,29 +4,12 @@
 
 CGuidance::CGuidance()
 {
+	checkColour = 0;
 }
 
 void CGuidance::update()
 {
-	/*cv::Mat _raw;
-    _cap.open();
-	
-    if(_cap.isOpened())
-    {
-		//std::cout << "\nRetrieving image...\n";
-        _cap.grab();
-        _cap.retrieve(_raw);
-        cv::resize(_raw, _raw, cv::Size(640,480));
-        cv::putText(_raw, "MOTOR SPEED: " + std::to_string(_speed), cv::Point(50,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
-  
-		
-		cv::cvtColor(_raw, _display_im, CV_BGR2GRAY);
-		//cv::cvtColor(_display_im, _hsv, CV_BGR2HSV);
-		
-		// = _binary;
-		//cv::resize(_display_im, _display_im, cv::Size(640, 480));
-    }*/
-    	cv::Mat _raw, _hsv, _crop,  _greenThresh, _redThresh_A, _redThresh_B;
+	cv::Mat _raw, _hsv, _crop,  _greenThresh, _redThresh_A, _redThresh_B;
     std::vector<cv::Vec3f> circles;
     std::string dir, colour = "NO";
     int largest_circle = 0, largest_circle_rad = 1, xPoint = 0;
@@ -54,7 +37,7 @@ void CGuidance::update()
         cv::resize(_raw, _raw, cv::Size(SIZE_X, SIZE_Y));
         
         //_crop = _raw(cv::Rect(10, 100, 600, 100));
-        if(_distance <= STOP_DIST)
+        if(checkColour)
         {
         for(int i = 0; i < 2; i++)
         {
@@ -81,7 +64,7 @@ void CGuidance::update()
 			for(size_t circle = 0; circle < circles.size(); circle++)
 			{
 				cv::Point center(std::round(circles[circle][0]), std::round(circles[circle][1]));
-				int radius = std::round(circles[circle][2]);
+				//int radius = std::round(circles[circle][2]);
 				//cv::circle(_raw, center, radius, cv::Scalar(255, 0, 0), 5);
 				//cv::line(_raw, center, _centerScreen, cv::Scalar(255,0,255), 3);
 				//int _dX = circles[circle][0] - SIZE_X/2;
@@ -99,7 +82,7 @@ void CGuidance::update()
 					colour = "STR";
 			}
 		}
-		if(largest_circle_rad < 50 && largest_circle_rad > 5)
+		/*if(largest_circle_rad < 50 && largest_circle_rad > 5)
 			{
 				if(xPoint < SIZE_X/2 - CENTER_RAD)
 				{
@@ -119,44 +102,49 @@ void CGuidance::update()
 					_speed_left = STRAIGHT;
 					_speed_right = STRAIGHT;
 				}
-			}
-		else
-		{
+			}*/
+		//else
+		//{
 			if(colour == "GRN")
 			{
-			dir = "GRN-R";
-			_speed_left = 0;
+			_direction = "RIGHT";
+			_speed_left = 200;
 			_speed_right = 0;
 			}
 			else if (colour == "RED")
 			{
-			 dir = "RED-L";
+			_direction = "LEFT";
 			_speed_left = 0;
-			_speed_right = 0;
+			_speed_right = 200;
 			}
 			else
 			{
-				dir = "STR";
-				_speed_left = 0;;
+				_direction = "STOP";
+				_speed_left = 0;
 				_speed_right = 0;;
 			}
-		}
+		//}
 		
 		}
 		else
 			{
-				dir = ">X";
-				_speed_left = STRAIGHT;
-				_speed_right = STRAIGHT;
+				_direction = "STRAIGHT";
+				//_speed_left = STRAIGHT;
+				//_speed_right = STRAIGHT;
 			}
 		//std::cout << "Largest circle found: " << largest_circle << " | Radius: " << largest_circle_rad << "\n";
 		//cv::circle(_display_im, cv::Point(SIZE_X/2, SIZE_Y/2), CENTER_RAD, cv::Scalar(0,0,255), 2, 4);
-		 cv::putText(_raw, "DIR: " + dir + " | L: " + std::to_string(_speed_left) + " | R" + std::to_string(_speed_right), cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
+		 cv::putText(_raw, "DIR: " + _direction + " | L: " + std::to_string(_speed_left) + " | R" + std::to_string(_speed_right), cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
 		 _raw.copyTo(_display_im);
 		 //.copyTo(_display_im);
 		//_greenThresh.copyTo(_display_im);
 		
     }
+}
+
+void CGuidance::getDirection(std::string &dir)
+{
+	dir = _direction;
 }
 
 void CGuidance::set_motor_speed(int &left, int &right)
