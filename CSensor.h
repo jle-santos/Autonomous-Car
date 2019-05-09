@@ -11,7 +11,7 @@
 #define TRIGGER 23
 #define ECHO 24
 
-#define MOVING_AVE 20
+#define MOVING_AVE 5
 
 //Constants
 enum {LOW, HIGH};

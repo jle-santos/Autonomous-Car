@@ -44,7 +44,7 @@ private:
 	static void serverthrd(CCar *ptr);
 	static void imagethrd(CCar *ptr);
 	static void sendthrd(CCar *ptr);
-	
+	static void distthrd(CCar *ptr);
 	//void serverfunc();
 	//void serverimgfunc();
 	

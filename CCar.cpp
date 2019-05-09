@@ -17,6 +17,9 @@ void CCar::transmit()
 	
 	std::thread t3 (&CCar::sendthrd, this);
 	t3.detach();
+	
+	//std::thread t4(&CCar::distthrd, this);
+	//t4.detach();
 }
 
 void CCar::serverthrd(CCar * ptr)
@@ -42,12 +45,22 @@ void CCar::sendthrd(CCar * ptr)
 		ptr->_guidance.update();
 	}
 }
-
+/*
+void CCar::distthrd(CCar *ptr)
+{
+	while(ptr->_thread_exit == false)
+	{
+		ptr->_sensor.getDistance();
+	}
+}
+*/
 void CCar::drive()
 {
-	transmit();
-	_motors.enable();
 	_sensor.enable();
+	_motors.enable();
+	transmit();
+	
+	
 	//_speed = 255;
 	double _distance;
 	//_motors.set_pwm_left(_speed);

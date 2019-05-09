@@ -36,6 +36,7 @@ void CSensor::getDistance()
 	{
 	gpioSleep(PI_TIME_RELATIVE, 0, 100);
 	}
+	
 	startTick = gpioTick();
 	//std::cout << "Waiting pulse\n";
 	while(gpioRead(ECHO) == HIGH && (gpioTick() - startTick < maxTime))
@@ -47,8 +48,8 @@ void CSensor::getDistance()
 	//std::cout << "Start: " << startTick/1000000 << "s | End time: " << endTick/1000000 << "\n";
 	diffTick = endTick - startTick;
 	//std::cout << "Elapsed time: " << diffTick << " us\n";
-	//for(int j = 1; j < MOVING_AVE; j++)
-	//	_distances[j] = _distances[j-1];
+	for(int j = 1; j < MOVING_AVE; j++)
+		_distances[j] = _distances[j-1];
 		
 	_distances[0] = ((diffTick/1000000) * 34300)/2;
 	//std::cout << "Elapsed time: " << diffTick/1000000 << " us | D: " << _distance << " cm\n";
@@ -131,12 +132,12 @@ void CSensor::enable()
 void CSensor::retrieveDistance(double &dist)
 {
 	double average = 0;
-	/*
+	
 	for(int i = 0; i < MOVING_AVE; i++)
 	{
 		average += (_distances[i]);
-	}*/
-	dist = _distances[0];
+	}
+	dist = average/MOVING_AVE;
 }
 
 CSensor::~CSensor()
