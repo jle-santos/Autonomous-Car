@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <sys/time.h>
 
 //Set input/output pins
 #define TRIGGER 23
@@ -18,13 +19,14 @@ enum {LOW, HIGH};
 class CSensor
 {
 private:
-	int _distance;
+	double _distance;
 public:
 	CSensor();
 	~CSensor();
 
 	int open(std::string comm);
 	
+	void enable();
 	void getDistance();
 	void retrieveDistance(double &dist);
 

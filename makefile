@@ -14,8 +14,8 @@ all: AutoCar
 #AutoCar: main.o CCar.o CMotor.o CGuidance.o server.o
 #	$(CC) $(LDFLAGS) main.o CCar.o CMotor.o CGuidance.o server.o -o AutoCar
 
-AutoCar: main.o CCar.o CMotor.o CGuidance.o server.o CCommunication.o
-	$(CC) $(LDFLAGS) main.o CCar.o CMotor.o CGuidance.o server.o CCommunication.o -o AutoCar
+AutoCar: main.o CCar.o CMotor.o CGuidance.o server.o CCommunication.o CSensor.o
+	$(CC) $(LDFLAGS) main.o CCar.o CMotor.o CGuidance.o server.o CCommunication.o CSensor.o -o AutoCar
 
 main.o: main.cpp
 	$(CC) $(CFLAGS) main.cpp
@@ -34,6 +34,9 @@ CCommunication.o: CCommunication.cpp CCommunication.h
 
 server.o: server.cpp server.h
 	$(CC) $(CFLAGS) server.cpp
+
+CSensor.o: CSensor.cpp CSensor.h
+	$(CC) $(CFLAGS) CSensor.cpp
 
 clean:
 	rm *o output

@@ -46,7 +46,8 @@ void CCar::sendthrd(CCar * ptr)
 void CCar::drive()
 {
 	transmit();
-	//_motors.enable();
+	_motors.enable();
+	_sensor.enable();
 	//_speed = 255;
 	
 	//_motors.set_pwm_left(_speed);
@@ -56,7 +57,7 @@ void CCar::drive()
 	{
 		//_guidance.update();
 		_guidance.get_im(_car_vision);
-		std::cout << "Test\n";
+		//std::cout << "Test\n";
 		_sensor.getDistance();
 		cv::waitKey(10);
 		_comm.get_image(_car_vision);
