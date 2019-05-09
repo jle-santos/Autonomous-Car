@@ -40,6 +40,8 @@ public:
 	void enable();
 	void disable();
 
+	void autoRun();
+	
 	void set_pwm_left(int val);
 	void set_pwm_right(int val);
 	int get_pwm_left();

@@ -3,6 +3,15 @@
 #include <opencv2/opencv.hpp>
 #include "raspicam_cv.h"
 
+#define SIZE_X 480
+#define SIZE_Y 360
+#define CENTER_RAD 30
+
+#define STRAIGHT 70
+#define TURN 100
+
+#define STOP_DIST 10
+
 class CGuidance
 {
 private:
@@ -11,6 +20,10 @@ private:
 	
 	raspicam::RaspiCam_Cv _cap;
 	
+	int _speed_left;
+	int _speed_right;
+	
+	double _distance;
 	int _speed;
 	
 public:
@@ -20,7 +33,8 @@ public:
 	void update();
 	void get_im(cv::Mat &im);
 	
-	void get_speed(int motor_speed); 
+	void set_motor_speed(int &left,int &right);
+	void getDistance(double dist); 
 	
 	
 };

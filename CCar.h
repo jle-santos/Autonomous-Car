@@ -32,7 +32,8 @@ private:
 	std::vector<std::string> _commands;
 	
 	int _speed;
-	
+	int _left;
+	int _right;
 	//double _distance;
 	
 	cv::Mat _car_vision;
