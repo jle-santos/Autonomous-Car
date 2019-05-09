@@ -32,7 +32,8 @@ private:
 	std::vector<std::string> _commands;
 	
 	int _speed;
-	
+	int _left;
+	int _right;
 	//double _distance;
 	
 	cv::Mat _car_vision;
@@ -44,7 +45,7 @@ private:
 	static void serverthrd(CCar *ptr);
 	static void imagethrd(CCar *ptr);
 	static void sendthrd(CCar *ptr);
-	
+	static void distthrd(CCar *ptr);
 	//void serverfunc();
 	//void serverimgfunc();
 	

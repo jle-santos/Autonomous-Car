@@ -17,6 +17,9 @@ void CCar::transmit()
 	
 	std::thread t3 (&CCar::sendthrd, this);
 	t3.detach();
+	
+	std::thread t4(&CCar::distthrd, this);
+	t4.detach();
 }
 
 void CCar::serverthrd(CCar * ptr)
@@ -43,11 +46,21 @@ void CCar::sendthrd(CCar * ptr)
 	}
 }
 
+void CCar::distthrd(CCar *ptr)
+{
+	while(ptr->_thread_exit == false)
+	{
+		ptr->_sensor.getDistance();
+	}
+}
+
 void CCar::drive()
 {
-	transmit();
-	_motors.enable();
 	_sensor.enable();
+	_motors.enable();
+	transmit();
+	
+	
 	//_speed = 255;
 	double _distance;
 	//_motors.set_pwm_left(_speed);
@@ -55,17 +68,23 @@ void CCar::drive()
 	
 	while(true) 
 	{
+		_motors.autoRun();
+		_motors.set_pwm_left(_left);
+		_motors.set_pwm_right(_right);
+	    _guidance.set_motor_speed(_left, _right);
+		
 		//_guidance.update();
 		_guidance.get_im(_car_vision);
 		_sensor.retrieveDistance(_distance);
+		_guidance.getDistance(_distance);
 		std::cout << "Distance: " << _distance << "\n";
 		//std::cout << "Test\n";
-		_sensor.getDistance();
+		//_sensor.getDistance();
 		cv::waitKey(20);
 		_comm.get_image(_car_vision);
-		_comm.get_commands(_commands);
-		if(!_commands.empty())
-			parse_cmd(_commands[0]);
+		//_comm.get_commands(_commands);
+		//if(!_commands.empty())
+		//	parse_cmd(_commands[0]);
 	};
 }
 

@@ -76,6 +76,18 @@ void CMotor::pedestrian()
 	
 }
 
+void CMotor::autoRun()
+{
+	//Make Motor A CW
+	gpioWrite(AIN1, ON);
+	gpioWrite(AIN2, OFF);
+
+	//Make Motor B CW
+	gpioWrite(BIN1, ON);
+	gpioWrite(BIN2, OFF);
+}
+
+
 void CMotor::stop()
 {
 	//Make Motor A low
