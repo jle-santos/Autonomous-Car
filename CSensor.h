@@ -26,6 +26,6 @@ public:
 	int open(std::string comm);
 	
 	void getDistance();
-	void retrieveDistance();
+	void retrieveDistance(double &dist);
 
 };
