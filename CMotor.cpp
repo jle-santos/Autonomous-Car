@@ -114,7 +114,7 @@ void CMotor::forward(float time)
 	//std::cout << "Written: " << gpioRead(BIN1) << " to GPIO: " << BIN1 << "\n";
 	//std::cout << "Written: " << gpioRead(BIN2) << " to GPIO: " << BIN2 << "\n";
 	
-	gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
+	//gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
 	//stop();
 }
 
@@ -128,7 +128,7 @@ void CMotor::backward(float time)
 	gpioWrite(BIN1, OFF);
 	gpioWrite(BIN2, ON);
 
-	gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
+	//gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
 	//stop();
 }
 
@@ -136,14 +136,14 @@ void CMotor::left(float time)
 {
 	//Make Motor A CW
 	gpioWrite(AIN1, OFF);
-	gpioWrite(AIN2, ON);
+	gpioWrite(AIN2, OFF);
 
 	//Make Motor B CW
 	gpioWrite(BIN1, ON);
 	gpioWrite(BIN2, OFF);
 
-	gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
-	stop();
+	//gpioSleep(PI_TIME_RELATIVE, 0, time*1000000);
+	//stop();
 
 }
 void CMotor::right(float time)
@@ -154,10 +154,10 @@ void CMotor::right(float time)
 
 	//Make Motor B CW
 	gpioWrite(BIN1, OFF);
-	gpioWrite(BIN2, ON);
+	gpioWrite(BIN2, OFF);
 
-	gpioSleep(PI_TIME_RELATIVE, time, time*1000000);
-	stop();
+	//gpioSleep(PI_TIME_RELATIVE, time, time*1000000);
+	//stop();
 }
 
 CMotor::~CMotor()

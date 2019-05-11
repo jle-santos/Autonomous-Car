@@ -74,7 +74,7 @@ void CCar::autonomous()
 		//_motors.set_pwm_right(_right);
 	    //_guidance.set_motor_speed(_left, _right);
 		_sensor.retrieveDistance(_distance);
-		if(_distance <= 13)
+		if(_distance <= 10)
 			{
 			_motors.stop();
 			_guidance.checkColour = 1;
@@ -86,7 +86,7 @@ void CCar::autonomous()
 			if(_right == 0 && _left == 200)
 				_motors.right(0.5);
 			else if(_left == 0 && _right == 200)
-				_motors.left(0.5);
+				_motors.left(0.45);
 			else
 				_motors.stop();
 			
@@ -132,22 +132,22 @@ void CCar::autonomous()
 
 void CCar::parse_cmd(std::string cmd)
 {
-	std::cout << "Commands recieved: " << cmd << "\n";
+	//std::cout << "Commands recieved: " << cmd << "\n";
 	_motors.set_pwm_left(_speed);
 	_motors.set_pwm_right(_speed);
 	//std::cout << "Speed: " << _speed << "\n";
 	if(cmd == "w")
 	{
 		_motors.forward(0.01);
-		std::cout << "\nForward detected\n";
+		//std::cout << "\nForward detected\n";
 	}
 	else if (cmd == "s")
-		_motors.backward(0.1);
+		_motors.backward(0.01);
 	else if (cmd == "a")
-		_motors.left(0.2);
+		_motors.left(0.0001);
 	else if (cmd == "d")
-		_motors.right(0.2);
-	else if (cmd == E_KEY)
+		_motors.right(0.0001);
+	else if (cmd == "e")
 	{
 		if(_speed < 255)
 			_speed += 20;
@@ -155,7 +155,7 @@ void CCar::parse_cmd(std::string cmd)
 		if(_speed > 255)
 			_speed = 255;
 	}
-	else if (cmd == Q_KEY)
+	else if (cmd == "q")
 	{
 		if(_speed > 100)
 			_speed -= 20;
