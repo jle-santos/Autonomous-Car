@@ -61,19 +61,32 @@ void CCar::autonomous()
 	_motors.enable();
 	transmit();
 	
+	//Autonomous mode only
+
+	
 	
 	//_speed = 255;
 	double _distance;
-	_motors.set_pwm_left(100);
-	_motors.set_pwm_right(100);
+	_left = 100;
+	_right = 100;
+	_motors.autoRun();
+	//_motors.set_pwm_left(100);
+	//_motors.set_pwm_right(100);
 	
 	while(true) 
 	{
-		//_motors.autoRun();
-		//_motors.set_pwm_left(_left);
-		//_motors.set_pwm_right(_right);
-	    //_guidance.set_motor_speed(_left, _right);
+		
+		_guidance.set_motor_speed(_left, _right);
+		_motors.set_pwm_left(_left);
+		_motors.set_pwm_right(_right);
+		std::cout << "PWM: " << _motors.get_pwm_left() << "\n";
+	    
 		_sensor.retrieveDistance(_distance);
+		_guidance.getDistance(_distance);
+		
+		
+		
+		/*
 		if(_distance <= 10)
 			{
 			_motors.stop();
@@ -105,7 +118,7 @@ void CCar::autonomous()
 				_motors.right(0.5);
 			}
 			else if(_direction == "STOP")
-				_motors.stop();*/
+				_motors.stop();
 			}
 		else
 		{
@@ -115,10 +128,10 @@ void CCar::autonomous()
 			_motors.set_pwm_right(100);
 		}
 
-		_guidance.get_im(_car_vision);
+		*/
 		
 		//_guidance.getDistance(_distance);
-		std::cout << "Distance: " << _distance << "| check Colour? "<< _guidance.checkColour << " | Direction: " << _direction << "\n";
+		//std::cout << "Distance: " << _distance << "| check Colour? "<< _guidance.checkColour << " | Direction: " << _direction << "\n";
 		
 		
 		
@@ -126,8 +139,14 @@ void CCar::autonomous()
 		//std::cout << "Test\n";
 		//_sensor.getDistance();
 		cv::waitKey(20);
+		_guidance.get_im(_car_vision);
 		_comm.get_image(_car_vision);
 	};
+}
+
+void CCar::stop()
+{
+	_motors.stop();
 }
 
 void CCar::parse_cmd(std::string cmd)
@@ -176,6 +195,7 @@ void CCar::drive()
 	_sensor.enable();
 	_motors.enable();
 	transmit();
+	
 	
 	while(true)
 	{

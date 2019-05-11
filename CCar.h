@@ -48,6 +48,7 @@ private:
 	static void imagethrd(CCar *ptr);
 	static void sendthrd(CCar *ptr);
 	static void distthrd(CCar *ptr);
+	//static void camthrd(CCar *ptr);
 	//void serverfunc();
 	//void serverimgfunc();
 	
@@ -63,7 +64,7 @@ public:
 	void autonomous();
 	void drive();
 	void test();
-	
+	void stop();
 	void parse_cmd(std::string cmd);
 };
 
