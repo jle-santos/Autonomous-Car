@@ -6,7 +6,7 @@ CGuidance::CGuidance()
 {
 	checkColour = 0;
 }
-
+/*
 void CGuidance::update()
 {
 	cv::Mat _raw, _hsv, _crop,  _greenThresh, _redThresh_A, _redThresh_B;
@@ -102,7 +102,7 @@ void CGuidance::update()
 					_speed_left = STRAIGHT;
 					_speed_right = STRAIGHT;
 				}
-			}*/
+			}
 		//else
 		//{
 			if(colour == "GRN")
@@ -143,7 +143,106 @@ void CGuidance::update()
 		
     }
 }
+*/
 
+void CGuidance::update()
+{
+	cv::Rect green;
+	cv::Rect orange;
+	
+	cv::Mat dilation;
+	
+	std::vector<cv::Vec4i> hierarchy;
+	std::vector<std::vector<cv::Point>> contours;
+	std::vector<cv::Point> contour;
+	
+	_cap.open();
+	
+	if(_cap.isOpened())
+    {
+		//Grab new image
+        _cap.grab();
+        _cap.retrieve(_raw);
+        cv::resize(_raw, _raw, cv::Size(SIZE_X, SIZE_Y));
+		
+		cv::cvtColor(_raw, _hsv, CV_RGB2HSV);
+
+		//Find Green
+		cv::inRange(_hsv, greenMin, greenMax, _greenThresh);
+		cv::erode(_greenThresh, dilation, cv::Mat(), cv::Point(-1,-1), 1);
+		cv::dilate(dilation, dilation, cv::Mat(), cv::Point(-1,-1), 1);
+		
+		cv::findContours(dilation, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+		for (unsigned int i = 0; i < contours.size(); i++)
+		 {
+			green = boundingRect(contours.at(i));
+			
+		 }
+		 
+		 cv::rectangle(_raw, green, cv::Scalar(0, 255, 0), 2);
+		
+	
+		//Find Orange
+		cv::inRange(_hsv, cv::Scalar(111, 117, 119), cv::Scalar(127,255,255), _redThresh_A);
+		cv::erode(_redThresh_A, dilation, cv::Mat(), cvPoint(-1,-1),2);
+		cv::dilate(dilation, dilation, cv::Mat(), cv::Point(-1,-1), 1);
+	    cv::findContours(dilation, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+		
+		for (unsigned int i = 0; i < contours.size(); i++)
+		 {
+			orange = cv::boundingRect(contours.at(i));
+			
+		 }
+		 rectangle(_raw, orange, cv::Scalar(0, 80, 255), 2);
+		 
+		//Tracking - track until size is X
+		//Get coordinates of box
+		cv::Point orange_center = cv::Point(orange.x + orange.width/2, orange.y + orange.height/2);
+		cv::Point green_center = cv::Point(green.x + green.width/2, green.y + green.height/2);
+		
+		if(orange_center.x || green_center.x >= SIZE_X/2)
+		{
+			_speed_left = 70;
+			_speed_right = 100;
+			std::cout << "TWEAK LEFT";
+		}
+		else if(orange_center.x || green_center.x < SIZE_X/2)
+		{
+			_speed_left = 100;
+			_speed_right = 70;
+			std::cout << "TWEAK RIGHT";
+		}
+		else
+		{
+			_speed_left = 100;
+			_speed_right = 90;
+		}
+		
+		//Check which colour
+		if((green.area() > 150) && (orange.area() > 150))	
+			_direction = "END";
+		else if(green.area() > 150)
+		{
+			cv::line(_raw, green_center, _centerScreen,  cv::Scalar(0, 255, 0), 3);
+			_direction = "GREEN";
+		}
+		else if(orange.area() > 150)
+		{
+			cv::line(_raw, orange_center, _centerScreen,  cv::Scalar(0, 80, 255), 3);
+			_direction = "ORANGE";
+		}
+		else
+			_direction = "STRAIGHT";
+
+		
+		//cv::putText(_raw, "ORANGE: " + std::to_string(orange.area()) + " | GREEN: " + std::to_string(green.area()) , cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
+		cv::putText(_raw, "DIR: " + _direction , cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
+		//cv::imshow("Raw,", _raw);
+		_raw.copyTo(_display_im);
+	
+	}
+	
+}
 
 void CGuidance::getDirection(std::string &dir)
 {
