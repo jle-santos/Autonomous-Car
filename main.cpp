@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 	CCar car;
 	int mode = 0;
 	
-	std::cout << "\nMode: \n1 - Manual, \n2 - Auto\n3 - Test>> ";
+	std::cout << "\nMode: \n1 - Manual, \n2 - Auto\n3 - Stop motors \n4 - Test>> ";
 	std::cin >> mode;
 	//Starts the Car Server threads
 	
@@ -19,7 +19,8 @@ int main(int argc, char* argv[])
 		car.drive();
 	if(mode == 2)
 		car.autonomous();
-		
+	if(mode == 3)
+		car.stop();
 	else
 		car.test();
 	

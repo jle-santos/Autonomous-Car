@@ -144,6 +144,7 @@ void CGuidance::update()
     }
 }
 
+
 void CGuidance::getDirection(std::string &dir)
 {
 	dir = _direction;
@@ -159,19 +160,6 @@ void CGuidance::getDistance(double distance)
 	_distance = distance;
 }
 
-/*
-void CGuidance::update()
-{
-	_cap.open();
-	
-	if(_cap.isOpened())
-	{
-		_cap.grab();
-		_cap.retrieve(_display_im);
-		cv::resize(_display_im, _display_im, cv::Size(640,480));
-	}
-}
-*/
 void CGuidance::get_im(cv::Mat &im)
 {
 	_display_im.copyTo(im);

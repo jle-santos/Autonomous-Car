@@ -19,7 +19,7 @@ enum {LOW, HIGH};
 class CSensor
 {
 private:
-	double _distances[20] = {0};
+	double _distances[5] = {0};
 public:
 	CSensor();
 	~CSensor();
