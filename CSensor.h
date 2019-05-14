@@ -34,5 +34,3 @@ public:
 	void retrieveDistance(double &dist);
 
 };
-
-double CSensor::_distance;

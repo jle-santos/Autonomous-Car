@@ -5,8 +5,9 @@
 CSensor::CSensor()
 {
 	open("Pi");
-	
 	CSensor::_distance = 0;
+	
+	//CSensor::_distance = 0;
 	
 	//Initiate the pins
 	gpioSetMode(TRIGGER, PI_OUTPUT);

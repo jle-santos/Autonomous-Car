@@ -66,7 +66,7 @@ void CCar::autonomous()
 	
 	
 	//_speed = 255;
-	double _distance;
+	double distance;
 	_left = 100;
 	_right = 100;
 	_motors.autoRun();
@@ -81,10 +81,10 @@ void CCar::autonomous()
 		_motors.set_pwm_right(_right);
 		//std::cout << "PWM: " << _motors.get_pwm_left() << "\n";
 	    
-	    _sensor.retrieveDistance(_distance);
-	    std::cout << _distance << "cm \n";
+	    _sensor.retrieveDistance(distance);
+	    std::cout << distance << "cm \n";
 	    
-	    if(_distance <= 7 && _distance >= 3)
+	    if(distance <= 7 && distance >= 3)
 	    {
 		_motors.stop();
 		_guidance.update();
@@ -307,7 +307,7 @@ void CCar::parse_cmd(std::string cmd)
 
 void CCar::drive()
 {
-	double _distance;
+	double distance;
 	_sensor.enable();
 	_motors.enable();
 	transmit();
@@ -315,8 +315,8 @@ void CCar::drive()
 	
 	while(true)
 	{
-		_sensor.retrieveDistance(_distance);
-		_guidance.getDistance(_distance);
+		_sensor.retrieveDistance(distance);
+		_guidance.getDistance(distance);
 		//cv::waitKey(20);
 		_guidance.get_im(_car_vision);
 		_comm.get_image(_car_vision);
