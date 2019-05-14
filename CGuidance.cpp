@@ -5,6 +5,8 @@
 CGuidance::CGuidance()
 {
 	checkColour = 0;
+	_speed_left = 100;
+	_speed_right = 100;
 }
 /*
 void CGuidance::update()
@@ -190,13 +192,14 @@ void CGuidance::update()
 		
 		for (unsigned int i = 0; i < contours.size(); i++)
 		 {
-			orange = cv::boundingRect(contours.at(i));
+			orange = cv::boundingRect(contours.at(i))
 			
 		 }
 		 rectangle(_raw, orange, cv::Scalar(0, 80, 255), 2);
 		 
 		//Tracking - track until size is X
 		//Get coordinates of box
+		/*
 		cv::Point orange_center = cv::Point(orange.x + orange.width/2, orange.y + orange.height/2);
 		cv::Point green_center = cv::Point(green.x + green.width/2, green.y + green.height/2);
 		
@@ -216,19 +219,19 @@ void CGuidance::update()
 		{
 			_speed_left = 100;
 			_speed_right = 90;
-		}
+		}*/
 		
 		//Check which colour
-		if((green.area() > 150) && (orange.area() > 150))	
+		if((green.area() > 30000) && (orange.area() > 30000))	
 			_direction = "END";
-		else if(green.area() > 150)
+		else if(green.area() > 1000)
 		{
-			cv::line(_raw, green_center, _centerScreen,  cv::Scalar(0, 255, 0), 3);
+			//cv::line(_raw, green_center, _centerScreen,  cv::Scalar(0, 255, 0), 3);
 			_direction = "GREEN";
 		}
-		else if(orange.area() > 150)
+		else if(orange.area() > 1000)
 		{
-			cv::line(_raw, orange_center, _centerScreen,  cv::Scalar(0, 80, 255), 3);
+			//cv::line(_raw, orange_center, _centerScreen,  cv::Scalar(0, 80, 255), 3);
 			_direction = "ORANGE";
 		}
 		else
@@ -238,6 +241,7 @@ void CGuidance::update()
 		//cv::putText(_raw, "ORANGE: " + std::to_string(orange.area()) + " | GREEN: " + std::to_string(green.area()) , cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
 		cv::putText(_raw, "DIR: " + _direction , cv::Point(10,100), CV_FONT_HERSHEY_PLAIN, 2, cv::Scalar(255,255,255), 2, CV_AA);
 		//cv::imshow("Raw,", _raw);
+		
 		_raw.copyTo(_display_im);
 	
 	}

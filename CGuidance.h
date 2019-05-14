@@ -24,6 +24,9 @@ private:
     //Vectors
     std::vector<std::string> colourSort = {"GRN", "RED"};
     
+    int orange_radius;
+    int green_radius;
+    
     //Green Range
     cv::Scalar greenMin = cv::Scalar(50,50,50);
     cv::Scalar greenMax = cv::Scalar(80,255,255);

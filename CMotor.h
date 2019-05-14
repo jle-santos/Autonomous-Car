@@ -51,6 +51,6 @@ public:
 	void stop();
 	void forward(float time);
 	void backward(float time);
-	void left(float time);
-	void right(float time);
+	void left(float time, float usec);
+	void right(float time, float usec);
 };

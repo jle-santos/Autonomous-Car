@@ -16,8 +16,8 @@ void CCar::transmit()
 	std::thread t2 (&CCar::imagethrd, this);
 	t2.detach();
 	
-	std::thread t3 (&CCar::sendthrd, this);
-	t3.detach();
+	//std::thread t3 (&CCar::sendthrd, this);
+	//t3.detach();
 	
 	std::thread t4(&CCar::distthrd, this);
 	t4.detach();
@@ -80,6 +80,35 @@ void CCar::autonomous()
 		_motors.set_pwm_left(_left);
 		_motors.set_pwm_right(_right);
 		//std::cout << "PWM: " << _motors.get_pwm_left() << "\n";
+	    
+	    _sensor.retrieveDistance(_distance);
+	    std::cout << _distance << "cm \n";
+	    if(_distance <= 7 && _distance >= 3)
+	    {
+		_motors.stop();
+		_guidance.update();
+		_guidance.getDirection(_direction);
+	    if(_direction == "GREEN")
+			{
+				_motors.stop();
+				_motors.right(1, 50000);
+				_motors.stop();
+				_motors.forward(0.5);
+				_direction = "STRAIGHT";
+			}
+		else if(_direction == "ORANGE")
+		{
+				_motors.stop();
+				_motors.left(1, 100000);
+				_motors.stop();
+				_direction = "STRAIGHT";
+				_motors.forward(0.5);
+		}
+		else
+			_motors.stop();
+		}
+		else
+			_motors.forward(0.01);
 	    
 		//_sensor.retrieveDistance(_distance);
 		//_guidance.getDistance(_distance);
@@ -249,9 +278,9 @@ void CCar::parse_cmd(std::string cmd)
 	else if (cmd == "s")
 		_motors.backward(0.01);
 	else if (cmd == "a")
-		_motors.left(0.0001);
+		_motors.left(0,1000);
 	else if (cmd == "d")
-		_motors.right(0.0001);
+		_motors.right(0,1000);
 	else if (cmd == "e")
 	{
 		if(_speed < 255)
@@ -347,12 +376,12 @@ void CCar::test()
 							
 				case 4 : 	std::cout << "\nL: Enter time in seconds: >> ";
 							std::cin >> time;
-							_motors.left(time);
+							_motors.left(time, 0);
 							break;
 							
 				case 5 : 	std::cout << "\nR: Enter time in seconds: >> ";
 							std::cin >> time;
-							_motors.right(time);
+							_motors.right(time, 0);
 							break;
 			
 		}
