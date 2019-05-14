@@ -5,7 +5,9 @@
 CSensor::CSensor()
 {
 	open("Pi");
-
+	
+	CSensor::_distance = 0;
+	
 	//Initiate the pins
 	gpioSetMode(TRIGGER, PI_OUTPUT);
 	gpioSetMode(ECHO, PI_INPUT);
@@ -20,6 +22,40 @@ int CSensor::open(std::string comm)
 		return 2;
 }
 
+void CSensor::sonarTrigger(void)
+{
+   /* trigger a sonar reading */
+
+   gpioWrite(TRIGGER, HIGH);
+
+   gpioDelay(10); /* 10us trigger pulse */
+
+   gpioWrite(TRIGGER, LOW);
+}
+
+void CSensor::sonarEcho(int gpio, int level, uint32_t tick)
+{
+   static uint32_t startTick, firstTick=0;
+
+   int diffTick;
+
+   if (!firstTick) firstTick = tick;
+
+   if (level == PI_ON)
+   {
+      startTick = tick;
+   }
+   else if (level == PI_OFF)
+   {
+	  // double dist = 0;
+      diffTick = tick - startTick;
+     CSensor::_distance = ((diffTick*34300))/2000000;
+	//std::cout << "diffTick: " << diffTick << " | Distance: " << dist << "\n";
+      //printf("%u %u\n", tick-firstTick, diffTick);
+   }
+}
+
+/*
 void CSensor::getDistance()
 {
 	double diffTick;
@@ -53,22 +89,26 @@ void CSensor::getDistance()
 		
 	_distances[0] = ((diffTick/1000000) * 34300)/2;
 }
-
+*/
 void CSensor::enable()
 {
 	gpioWrite(TRIGGER, LOW);
 	cv::waitKey(500);
+	
+	gpioSetTimerFunc(0,50, sonarTrigger);
+	gpioSetAlertFunc(ECHO, sonarEcho);
+	
 }
 
 void CSensor::retrieveDistance(double &dist)
 {
-	double average = 0;
+	//double average = 0;
 	
-	for(int i = 0; i < MOVING_AVE; i++)
-		average += (_distances[i]);
+	//for(int i = 0; i < MOVING_AVE; i++)
+		//average += (_distances[i]);
 
-	dist = average/MOVING_AVE;
-	//dist = _distances[0];
+	//dist = average/MOVING_AVE;
+	dist = CSensor::_distance;
 }
 
 CSensor::~CSensor()

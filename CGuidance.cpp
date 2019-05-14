@@ -192,7 +192,7 @@ void CGuidance::update()
 		
 		for (unsigned int i = 0; i < contours.size(); i++)
 		 {
-			orange = cv::boundingRect(contours.at(i))
+			orange = cv::boundingRect(contours.at(i));
 			
 		 }
 		 rectangle(_raw, orange, cv::Scalar(0, 80, 255), 2);

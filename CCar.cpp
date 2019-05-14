@@ -19,8 +19,8 @@ void CCar::transmit()
 	//std::thread t3 (&CCar::sendthrd, this);
 	//t3.detach();
 	
-	std::thread t4(&CCar::distthrd, this);
-	t4.detach();
+	//std::thread t4(&CCar::distthrd, this);
+	//t4.detach();
 }
 
 void CCar::serverthrd(CCar * ptr)
@@ -46,7 +46,7 @@ void CCar::sendthrd(CCar * ptr)
 		ptr->_guidance.update();
 	}
 }
-
+/*
 void CCar::distthrd(CCar *ptr)
 {
 	while(ptr->_thread_exit == false)
@@ -54,7 +54,7 @@ void CCar::distthrd(CCar *ptr)
 		ptr->_sensor.getDistance();
 	}
 }
-
+*/
 void CCar::autonomous()
 {
 	_sensor.enable();
@@ -83,6 +83,7 @@ void CCar::autonomous()
 	    
 	    _sensor.retrieveDistance(_distance);
 	    std::cout << _distance << "cm \n";
+	    
 	    if(_distance <= 7 && _distance >= 3)
 	    {
 		_motors.stop();

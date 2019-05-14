@@ -19,15 +19,20 @@ enum {LOW, HIGH};
 class CSensor
 {
 private:
-	double _distances[5] = {0};
+	static double _distance;
 public:
 	CSensor();
 	~CSensor();
 
 	int open(std::string comm);
 	
+	static void sonarTrigger(void);
+	static void sonarEcho(int gpio, int level, uint32_t tick);
+	
 	void enable();
 	void getDistance();
 	void retrieveDistance(double &dist);
 
 };
+
+double CSensor::_distance;
